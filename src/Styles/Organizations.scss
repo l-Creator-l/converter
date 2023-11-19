@@ -1,0 +1,235 @@
+.Organizations {
+	flex-grow: 1;
+	padding: 40px 60px !important;
+	overflow-x: hidden;
+	overflow-y: scroll;
+
+    .Organizations__Header, .Organizations__Description {
+        text-align: center;
+        font-size: 24px;
+        color: white;
+		user-select: none;
+    }
+
+    .Organizations__Description {
+		width: 1000px;
+        margin: 20px auto 0;
+        font-size: 18px;
+    }
+
+	.Organizations__Accordion {
+		width: 1000px;
+		margin: 50px auto 0 !important;
+		padding: 5px 20px;
+		border: 1px solid white;
+		border-radius: 10px !important;
+		background: rgba(255, 255, 255, 0.1);
+
+		.Organizations__AccordionHeader {
+            margin: auto;
+            font-size: 20px;
+			color: white;
+		}
+
+		.Organizations__AccordionExpandIcon {
+			fill: white;
+		}
+
+        .Organizations__NewOrganization {
+            position: relative;
+            margin-top: 10px;
+
+			.Organizations__InputContainer {
+				display: flex;
+				justify-content: space-between;
+				height: 60px;
+
+				.Organizations__Input {
+					width: 275px;
+					font-size: 10px !important;
+				}
+			}
+
+            .Organizations__SubmitError {
+                position: absolute;
+                top: 52px;
+                left: 50%;
+                transform: translateX(-50%);
+                color: #f7b0b9;
+            }
+
+			.Organizations__SaveOrganizationButton {
+				display: block;
+				width: 180px;
+				height: 50px;
+				margin: 30px auto 10px;
+				border: 1px solid white !important;
+				border-radius: 25px;
+				color: white;
+            }
+        }
+	}
+
+    .Organizations__Table {
+		width: 1000px;
+		margin: 50px auto;
+
+		.Organizations__TableHeaderCell {
+			height: 70px;
+			color: white;
+			user-select: none;
+
+			.Organizations__TableHeaderWrapper {
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				padding-left: 60px;
+
+				.Organizations__TableHeaderText {
+					margin-right: 10px;
+					font-size: 15px;
+				}
+
+				.Organizations__SortMaxIcon, .Organizations__SortMinIcon {
+					margin: 2px;
+
+					&:hover {
+						fill: lightgrey;
+						cursor: pointer;
+					}
+				}
+			}
+		}
+
+		.Organizations__TableBodyRow, .Organizations__TableBodyRow_locked {
+			height: 70px;
+			border: none;
+			border-top: 1px solid white;
+			transition: .3s;
+
+			.Organizations__SelectOrganizationCell {
+				width: 50px;
+				height: 70px;
+				padding: 5px 0 0 35px;
+
+				.Organizations__SelectIcon {
+					display: none;
+					width: 12px;
+					height: 12px;
+					fill: white;
+				}
+			}
+
+			.Organizations__TableCell {
+                height: 85px;
+				text-align: center;
+				font-size: 16px;
+				color: white;
+
+                .Organizations__NameEditInput {
+                    width: 200px;
+                }
+
+                .Organizations__OKPOGoodEditInput {
+                    width: 110px;
+                }
+
+                .Organizations__OKPOBadEditInput {
+                    width: 110px;
+                }
+			}
+
+			.Organizations__ControlsCell {
+				width: 115px;
+
+                .Organizations__ApplyButton {
+                    display: inline-flex;
+                    margin-right: 10px;
+					border: 1px solid white;
+					transition: .3s;
+
+                    &:hover {
+						border: 1px solid rgb(154, 255, 151);
+
+						.Organizations__ApplyIcon {
+							fill: rgb(154, 255, 151);
+						}
+					}
+
+                    .Organizations__ApplyIcon {
+                        fill: white;
+                    }
+                }
+
+                .Organizations__CancelButton {
+                    display: inline-flex;
+                    margin: auto;
+					border: 1px solid white;
+					transition: .3s;
+
+                    &:hover {
+						border: 1px solid #f7b0b9;
+
+						.Organizations__CancelIcon {
+							fill: #f7b0b9;
+						}
+					}
+
+                    .Organizations__CancelIcon {
+                        fill: white;
+                    }
+                }
+
+                .Organizations__EditButton {
+                    display: none;
+                    margin-right: 10px;
+					border: 1px solid white;
+					transition: .3s;
+
+                    &:hover {
+						border: 1px solid rgb(154, 255, 151);
+
+						.Organizations__EditIcon {
+							fill: rgb(154, 255, 151);
+						}
+					}
+
+                    .Organizations__EditIcon {
+                        fill: white;
+                    }
+                }
+
+				.Organizations__RemoveButton {
+					display: none;
+					margin: auto;
+					border: 1px solid white;
+					transition: .3s;
+
+					&:hover {
+						border: 1px solid #f7b0b9;
+
+						.Organizations__RemoveIcon {
+							fill: #f7b0b9;
+						}
+					}
+
+					.Organizations__RemoveIcon {
+						fill: white;
+					}
+				}
+			}
+		}
+
+        .Organizations__TableBodyRow:hover {
+            background: rgba(25, 118, 210, 0.04);
+
+            .Organizations__EditButton, .Organizations__RemoveButton {
+                display: inline-flex !important;
+            }
+
+            .Organizations__SelectIcon {
+                display: inline-block !important;
+            }
+        }
+	}
+}

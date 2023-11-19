@@ -1,0 +1,65 @@
+@import './Menu';
+@import './Converter';
+@import './Settings';
+@import './Forms';
+@import './Organizations';
+@import './Rules';
+@import './Modal';
+
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+
+	::-webkit-scrollbar {
+		width: 8px;
+	}
+
+	::-webkit-scrollbar-track {
+		border-radius: 10px;
+		background: rgb(180, 180, 180);
+        margin: 30px 0;
+	}
+
+	::-webkit-scrollbar-thumb {
+		border-radius: 10px;
+		outline: 1px solid grey;
+		background: rgb(240, 240, 240);
+	}
+}
+
+body {
+	height: 100vh;
+
+	.App {
+		min-width: 100%;
+		height: 100vh;
+		padding: 10px;
+
+		.Container {
+			display: flex;
+			min-width: 100%;
+			height: 100%;
+			padding: 10px;
+			background: grey;
+			border-radius: 20px;
+		}
+	}
+}
+
+.hidden {
+	display: none !important;
+}
+
+.active {
+    fill: rgb(154, 255, 151) !important;
+}
+
+.selectedBackground {
+    background: rgba(25, 118, 210, 0.04);
+}
+
+.selectedIcon {
+    display: inline-block !important;
+}

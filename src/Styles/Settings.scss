@@ -1,0 +1,60 @@
+.Settings {
+    position: relative;
+	flex-grow: 1;
+	padding: 40px 60px !important;
+
+	.Settings__Header {
+		text-align: center;
+		color: white;
+		font-size: 24px;
+		user-select: none;
+    }
+
+    .Settings__Form {
+        display: block;
+        width: 350px;
+        margin: 50px auto 0;
+        padding: 30px;
+        border: 1px solid white;
+        border-radius: 15px;
+		background: rgba(255, 255, 255, 0.1);
+        user-select: none;
+
+        .Settings__FormLabel {
+            font-size: 18px;
+            color: white;
+        }
+
+        .Settings__FormGroup {
+            margin-top: 20px;
+            color: white;
+
+            .Settings__Radio {
+                color: white;
+            }
+        }
+    }
+
+    .Settings__Footer {
+        position: absolute;
+        left: 0;
+        bottom: 25px;
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+
+        .Settings__FooterText {
+            font-size: 11px;
+            color: white;
+            user-select: none;
+
+            .Settings__Email {
+                display: inline;
+                font-size: 11px;
+                color: white;
+                user-select: none;
+                cursor: pointer;
+            }
+        }
+    }
+}

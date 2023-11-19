@@ -1,0 +1,98 @@
+.Converter {
+	flex-grow: 1;
+	padding: 40px 60px !important;
+	overflow-x: hidden;
+	overflow-y: scroll;
+
+	.Converter__Header, .Converter__Description {
+		text-align: center;
+		color: white;
+		font-size: 24px;
+		user-select: none;
+	}
+
+    .Converter__Description {
+        max-width: 900px;
+        margin: 20px auto 0;
+        font-size: 18px;
+    }
+
+	.Converter__Container {
+		max-width: 900px;
+		margin: 100px auto 0;
+		padding: 40px;
+		border: 1px solid white;
+		border-radius: 20px;
+		background: rgba(255, 255, 255, 0.1);
+
+		.Converter__InputDescription {
+			text-align: center;
+			color: white;
+			font-size: 18px;
+			user-select: none;
+		}
+
+		.Converter__InputDescriptionSmall {
+			text-align: center;
+			color: white;
+			font-size: 14px;
+			user-select: none;
+		}
+
+		.Converter__Form {
+			display: flex;
+			justify-content: space-between;
+			width: 800px;
+			height: 70px;
+			margin: 30px auto 0;
+
+			.Converter__Input {
+				width: 600px;
+				color: white !important;
+			}
+
+			.Converter__Button {
+				height: 55px;
+				border: 1px solid white;
+				border-radius: 25px;
+				color: white;
+			}
+		}
+	}
+
+    .Converter__Loading {
+        display: block;
+        margin: 100px auto;
+        color: white;
+    }
+
+    .Converter__ResutlBox {
+        width: 900px;
+        margin: auto;
+
+        .Converter__Result {
+            margin: 100px 0 20px;
+            font-size: 20px;
+            color: white;
+            user-select: none;
+        }
+
+        .Converter__NotFound {
+            margin-bottom: 10px;
+            font-size: 20px;
+            color: #f7b0b9;
+            user-select: none;
+        }
+
+        .Converter__NotFoundItem {
+            font-size: 14px;
+            color: #f7b0b9;
+        }
+    
+        .Converter__Error {
+            font-size: 20px;
+            color: #f7b0b9;
+        }
+    }
+    
+}

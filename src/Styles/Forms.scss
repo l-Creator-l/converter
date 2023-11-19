@@ -1,0 +1,236 @@
+.Forms {
+	flex-grow: 1;
+	padding: 40px 60px !important;
+	overflow-x: hidden;
+	overflow-y: scroll;
+    
+    .Forms__Header, .Forms__Description {
+        text-align: center;
+        font-size: 24px;
+        color: white;
+		user-select: none;
+
+    }
+
+    .Forms__Description {
+        width: 1000px;
+        margin: 20px auto 0;
+        font-size: 18px;
+    }
+
+	.Forms__Accordion {
+		width: 1000px;
+		margin: 50px auto 0 !important;
+		padding: 5px 20px;
+		border: 1px solid white;
+		border-radius: 10px !important;
+		background: rgba(255, 255, 255, 0.1);
+
+		.Forms__AccordionHeader {
+            margin: auto;
+            font-size: 20px;
+			color: white;
+		}
+
+		.Forms__AccordionExpandIcon {
+			fill: white;
+		}
+
+		.Forms__NewForm {
+            position: relative;
+            margin-top: 10px;
+
+			.Forms__InputContainer {
+				display: flex;
+				justify-content: space-between;
+				height: 60px;
+
+				.Forms__Input {
+					width: 275px;
+					font-size: 10px !important;
+				}
+			}
+
+            .Forms__SubmitError {
+                position: absolute;
+                top: 52px;
+                left: 50%;
+                transform: translateX(-50%);
+                color: #f7b0b9;
+            }
+
+			.Forms__SaveFormButton {
+				display: block;
+				width: 180px;
+				height: 50px;
+				margin: 30px auto 10px;
+				border: 1px solid white !important;
+				border-radius: 25px;
+				color: white;
+			}
+		}
+	}
+
+	.Forms__Table {
+		width: 1000px;
+		margin: 50px auto;
+
+		.Forms__TableHeaderCell {
+			height: 70px;
+			color: white;
+			user-select: none;
+
+			.Forms__TableHeaderWrapper {
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				padding-left: 55px;
+
+				.Forms__TableHeaderText {
+					margin-right: 10px;
+					font-size: 18px;
+				}
+
+				.Forms__SortMaxIcon, .Forms__SortMinIcon {
+					margin: 2px;
+
+					&:hover {
+						fill: lightgrey;
+						cursor: pointer;
+					}
+				}
+			}
+		}
+
+		.Forms__TableBodyRow, .Forms__TableBodyRow_locked {
+			height: 70px;
+			border: none;
+			border-top: 1px solid white;
+			transition: .3s;
+
+			.Forms__SelectFormCell {
+				width: 50px;
+				height: 70px;
+				padding: 5px 0 0 35px;
+
+				.Forms__SelectIcon {
+					display: none;
+					width: 12px;
+					height: 12px;
+					fill: white;
+				}
+			}
+
+			.Forms__TableCell {
+                height: 85px;
+				text-align: center;
+				font-size: 16px;
+				color: white;
+
+                .Forms__NameEditInput {
+                    width: 200px;
+                }
+
+                .Forms__CodeEditInput {
+                    width: 100px;
+                }
+
+                .Forms__YearEditInput {
+                    width: 60px;
+                }
+			}
+
+			.Forms__ControlsCell {
+				width: 115px;
+
+                .Forms__ApplyButton {
+                    display: inline-flex;
+                    margin-right: 10px;
+					border: 1px solid white;
+					transition: .3s;
+
+                    &:hover {
+						border: 1px solid rgb(154, 255, 151);
+
+						.Forms__ApplyIcon {
+							fill: rgb(154, 255, 151);
+						}
+					}
+
+                    .Forms__ApplyIcon {
+                        fill: white;
+                    }
+                }
+
+                .Forms__CancelButton {
+                    display: inline-flex;
+                    margin: auto;
+					border: 1px solid white;
+					transition: .3s;
+
+                    &:hover {
+						border: 1px solid #f7b0b9;
+
+						.Forms__CancelIcon {
+							fill: #f7b0b9;
+						}
+					}
+
+                    .Forms__CancelIcon {
+                        fill: white;
+                    }
+                }
+
+                .Forms__EditButton {
+                    display: none;
+                    margin-right: 10px;
+					border: 1px solid white;
+					transition: .3s;
+
+                    &:hover {
+						border: 1px solid rgb(154, 255, 151);
+
+						.Forms__EditIcon {
+							fill: rgb(154, 255, 151);
+						}
+					}
+
+                    .Forms__EditIcon {
+                        fill: white;
+                    }
+                }
+
+				.Forms__RemoveButton {
+					display: none;
+					margin: auto;
+					border: 1px solid white;
+					transition: .3s;
+
+					&:hover {
+						border: 1px solid #f7b0b9;
+
+						.Forms__RemoveIcon {
+							fill: #f7b0b9;
+						}
+					}
+
+					.Forms__RemoveIcon {
+						fill: white;
+					}
+				}
+			}
+		}
+
+        .Forms__TableBodyRow:hover {
+            background: rgba(25, 118, 210, 0.04);
+
+			.Forms__EditButton, .Forms__RemoveButton {
+				display: inline-flex !important;
+			}
+
+			.Forms__SelectIcon {
+				display: inline-block !important;
+			}
+        }
+	}
+}
