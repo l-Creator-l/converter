@@ -1,9 +1,11 @@
 import getMonthNumber from './getMonthNumber';
+import getTableLetter from './getTableLetter';
 import { IForm, IRules } from '../Types/reduxTypes';
 import { IFile } from '../Types/electronTypes';
 
+export default function xmlGenerator(file:IFile, dbForm:IForm, okpo:string, rules:IRules, region:number) {
 
-export default function xmlGenerator(file:IFile, dbForm:IForm, dbFormNumber:number, okpo:string, rules:IRules) {
+let counter = 1;
 
 return `<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE IAS_forms SYSTEM "..\\IAS_Documents.dtd">
@@ -14,7 +16,7 @@ return `<?xml version="1.0" encoding="UTF-8"?>
             <key keyName="Год" keyValue="${dbForm.year}"/>
             <key keyName="${/здрав$/i.test(dbForm.name) ? 'УНП' : 'ОКПО'}" keyValue="${/здрав$/i.test(dbForm.name) ? file.unp : okpo}"/>
             ${dbForm.name === '4-нетрудоспособность' ? `<key keyName="Месяц" keyValue="${getMonthNumber(file.fileName)}"/>` : ''}
-            <key keyName="Объем инф-ции" keyValue=""/>
+            <key keyName="Объем инф-ции" keyValue="1${region}"/>
             ${dbForm.name === '1-ссз' ? ` <key keyName="Форма собствен." keyValue=""/>` :
             dbForm.name === '1-медобеспечение ЧАЭС' ? `<key keyName="Ведомство" keyValue=""/>` :
             ''
@@ -22,23 +24,61 @@ return `<?xml version="1.0" encoding="UTF-8"?>
         </keys>
         <frm_Parts>
             ${(file.tables.map((table:[], tNumber) => 
-            `${tNumber ? `\t\t` : ''}<frm_Part formPart="${tNumber + 1}" typePart="T" namePart="">
-                <table tableName="T${dbForm.code}${String(tNumber + 1).length === 1 ? `0${tNumber + 1}` : tNumber + 1}T">
-                    ${(table.map((row, i, array) => 
-                        `${i ? `\t\t\t` : ''}<row idRow="${i + 1}">
+            `${tNumber ? `\t\t` : ''}<frm_Part formPart="${tNumber + 1}" typePart="${getTableLetter(dbForm.name, tNumber + 1)}" namePart="">
+                <table tableName="T${dbForm.code}${String(tNumber + 1).length === 1 ? `0${tNumber + 1}` : tNumber + 1}${getTableLetter(dbForm.name, tNumber + 1)}">
+                    ${(table.map((row, i, array) => {
+
+                        let rNumber;
+
+                        rules.editRowNumber.forEach(rule => {
+                            if (rule.form.name === dbForm.name && rule.form.year === dbForm.year) {
+                                rule.tables.forEach(table => {
+                                    if (Number(table.tNumber) === tNumber + 1) {
+                                        rNumber = counter = Number(table.firstRowNumber) + i;
+                                        counter++;
+                                    }
+                                });
+                            }
+                        });
+
+                        if (!rNumber) rNumber = counter++;
+
+                        return `${i ? `\t\t\t` : ''}<row idRow="${rNumber}">
                         ${(Object.values(row).map((cell:string, i, array) => {
-                            if (!i) return;
-                            for (const rule of rules.rmCellRules) {
-                                if (dbFormNumber === rule.formNumber && (((tNumber === rule.table.number) && (rule.radio === 'one')) || ((tNumber >= Number(rule.table.from)) && (tNumber <= Number(rule.table.to)) && (rule.radio === 'range')) || rule.radio === 'all')) {
+
+                            for (const rule of rules.removeCell) {
+                                if (((rule.form.name === dbForm.name && rule.form.year === dbForm.year) || rule.form.all) && (((tNumber === rule.table.number) && (rule.radio === 'one')) || ((tNumber >= Number(rule.table.from)) && (tNumber <= Number(rule.table.to)) && (rule.radio === 'range')) || rule.radio === 'all')) {
                                     const regexp = new RegExp(rule.regexp.value, rule.regexp.iFlag ? 'i' : '');
                                     if (regexp.test(cell)) return;
                                 }
                             }
-                           // if (/^чел\.|единиц$/i.test(cell)) return;
-                            return `${i > 1 ? `\t\t\t` : ''}<td idCol="${i + 1}" value="${cell ? cell : 'NULL'}"/>${(i === array.length - 1) ? '' : '\n'}`
+
+                            switch(dbForm.name) {
+
+                                case '1-ссз':
+
+                                    if (tNumber !== 16) {
+                                        if (!i) return;
+                                        return `${i > 1 ? `\t\t\t` : ''}<td idCol="${i}" value="${cell ? cell : 'NULL'}"/>${(i === array.length - 1) ? '' : '\n'}`;
+                                    }
+                                    else {
+                                        if (!i) return `<td idCol="${i + 1}" value="${cell ? cell : 'NULL'}"/>\n`;
+                                        else if (i === 1) return;
+                                        else if (i > 1) return `\t\t\t<td idCol="${i}" value="${cell ? cell : 'NULL'}"/>${(i === array.length - 1) ? '' : '\n'}`;
+                                    }
+
+                                break;
+
+                                default:
+
+                                    if (!i) return;
+                                    return `${i > 1 ? `\t\t\t` : ''}<td idCol="${i}" value="${cell ? cell : 'NULL'}"/>${(i === array.length - 1) ? '' : '\n'}`;
+
+                            }
+
                         })).join('')}
                     </row>${(i === array.length - 1) ? '' : '\n'}`    
-                    )).join('')}
+                    })).join('')}
                 </table>
             </frm_Part>\n`
             )).join('')}

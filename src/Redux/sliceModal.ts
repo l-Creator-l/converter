@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { IModal, TModalRemoveForm, TModalRemoveOrganization, TModalRmCellRule } from "../Types/reduxTypes";
+import { IModal, TModalRemoveForm, TModalRemoveOrganization, TModalRemoveRule } from "../Types/reduxTypes";
 
 const initialState:IModal = {
     modalRemoveForm: {
@@ -12,7 +12,11 @@ const initialState:IModal = {
         organizationName: '',
         organizationNumber: 0
     },
-    modalRemoveRmCellRule: {
+    modalRemoveCell: {
+        visible: false,
+        ruleNumber: 0
+    },
+    modalRemoveNumberRule: {
         visible: false,
         ruleNumber: 0
     }
@@ -30,9 +34,13 @@ export const sliceModal = createSlice({
             if (action.payload.organizationName) state.modalRemoveOrganization = action.payload;
             else state.modalRemoveOrganization.visible = action.payload.visible;
 		},
-        setModalVisibilityRm(state, action: PayloadAction<TModalRmCellRule>) {
-            if (action.payload.ruleNumber || action.payload.ruleNumber === 0) state.modalRemoveRmCellRule = action.payload;
-            else state.modalRemoveRmCellRule.visible = action.payload.visible;
+        setModalVisibilityRm(state, action: PayloadAction<TModalRemoveRule>) {
+            if (action.payload.ruleNumber || action.payload.ruleNumber === 0) state.modalRemoveCell = action.payload;
+            else state.modalRemoveCell.visible = action.payload.visible;
+        },
+        setModalVisibilityEd(state, action: PayloadAction<TModalRemoveRule>) {
+            if (action.payload.ruleNumber || action.payload.ruleNumber === 0) state.modalRemoveNumberRule = action.payload;
+            else state.modalRemoveNumberRule.visible = action.payload.visible;
         }
 	}
 

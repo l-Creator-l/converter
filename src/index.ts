@@ -22,12 +22,15 @@ if (require('electron-squirrel-startup')) {
 	app.quit();
 }
 
-const createWindow = (): void => {
+const createWindow = (width?: number, height?: number): void => {
 	// Create the browser window.
 	const mainWindow = new BrowserWindow({
 		show: false,
 		autoHideMenuBar: true,
 		center: true,
+        //movable: false,
+        minWidth: width,
+        minHeight: height,
         icon: __dirname + 'Icon/icon.ico',
 		webPreferences: {
 			preload: MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY,
@@ -48,6 +51,10 @@ const createWindow = (): void => {
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.on('ready', () => {
+
+    const { screen } = require('electron');
+    const primaryDisplay = screen.getPrimaryDisplay();
+    const { width, height } = primaryDisplay.workAreaSize;
 
 	ipcMain.handle('transferData', async (event, data:IData) => {
 
@@ -92,7 +99,17 @@ app.on('ready', () => {
 							}
 						}
 							
-						json[sheet].forEach((row:any) => {delete row.B});
+						json[sheet].forEach((row:any) => {
+                            switch(file.match(/^\d+_(\d+ ?- ?[а-яё]+( [а-яё]+)*)/i)[1]) {
+
+                                case '1-ссз':
+                                    if (!/17$/.test(sheet)) delete row.B;
+                                break
+
+                                default: delete row.B
+
+                            }
+                        });
 
 					}
 				}
@@ -113,16 +130,12 @@ app.on('ready', () => {
                 const formYear = file.fileName.match(/_[а-яё -]*(\d{4})_/i)[1];
                 const organizationOKPO = file.fileName.match(/^(\d{12})_/)[1];
                 let dbForm:IForm;
-                let dbFormNumber:number;
                 let dbOrganization:IOrganization;
                 let okpo;
-                let region;
+                let region:number;
 
-                data.forms.forEach((item, i) => {
-                    if ((item.name === formName) && (item.year == formYear)) {
-                        dbForm = item;
-                        dbFormNumber = i;
-                    }
+                data.forms.forEach(item => {
+                    if ((item.name === formName) && (item.year == formYear)) dbForm = item;
                 });
                 data.organizations.forEach(item => {
                     if (item.okpoBad === organizationOKPO) dbOrganization = item;
@@ -148,7 +161,7 @@ app.on('ready', () => {
                     unp: file.unp,
                     region,
                     fileName: file.fileName,
-                    xml: xmlGenerator(file, dbForm, dbFormNumber, okpo, data.rules)
+                    xml: xmlGenerator(file, dbForm, okpo, data.rules, region)
                 })
 			}
 
@@ -157,11 +170,11 @@ app.on('ready', () => {
                 case 'by forms':
                     for (const item of xmlArray) {
 
-                        const additionalKey = getAdditionalKey(item.form.name, item.fileName) ? `_${getAdditionalKey(item.form.name, item.fileName)}` : '';
+                        const additionalKey = getAdditionalKey(item.form.name, item.fileName, item.region);
 
                         if (!fs.existsSync(`${data.path}\\Result\\${item.form.name}`)) fs.mkdirSync(`${data.path}\\Result\\${item.form.name}`);
                         if (!fs.existsSync(`${data.path}\\Result\\${item.form.name}\\${item.region}`)) fs.mkdirSync(`${data.path}\\Result\\${item.form.name}\\${item.region}`);
-                        await fsPromises.writeFile(`${data.path}\\Result\\${item.form.name}\\${item.region}\\999_${item.form.code}_${item.form.year}_${/здрав$/i.test(item.form.name) ? item.unp : item.okpo}${additionalKey}__${dayjs().format('YYYYMMDD')}.xml`, item.xml);
+                        await fsPromises.writeFile(`${data.path}\\Result\\${item.form.name}\\${item.region}\\999_${item.form.code}_${item.form.year}_${/здрав$/i.test(item.form.name) ? item.unp : item.okpo}_${additionalKey}_${dayjs().format('YYYYMMDD')}.xml`, item.xml);
 
                     }
                 break;
@@ -169,12 +182,12 @@ app.on('ready', () => {
                 case 'by organizations':
                     for (const item of xmlArray) {
 
-                        const additionalKey = getAdditionalKey(item.form.name, item.fileName) ? `_${getAdditionalKey(item.form.name, item.fileName)}` : '';
+                        const additionalKey = getAdditionalKey(item.form.name, item.fileName, item.region);
 
                         if (!fs.existsSync(`${data.path}\\Result\\${item.okpo}`)) fs.mkdirSync(`${data.path}\\Result\\${item.okpo}`);
                         if (!fs.existsSync(`${data.path}\\Result\\${item.okpo}\\${item.form.name}`)) fs.mkdirSync(`${data.path}\\Result\\${item.okpo}\\${item.form.name}`);
                         if (!fs.existsSync(`${data.path}\\Result\\${item.okpo}\\${item.form.name}\\${item.region}`)) fs.mkdirSync(`${data.path}\\Result\\${item.okpo}\\${item.form.name}\\${item.region}`);
-                        await fsPromises.writeFile(`${data.path}\\Result\\${item.okpo}\\${item.form.name}\\${item.region}\\999_${item.form.code}_${item.form.year}_${/здрав$/i.test(item.form.name) ? item.unp : item.okpo}${additionalKey}__${dayjs().format('YYYYMMDD')}.xml`, item.xml);
+                        await fsPromises.writeFile(`${data.path}\\Result\\${item.okpo}\\${item.form.name}\\${item.region}\\999_${item.form.code}_${item.form.year}_${/здрав$/i.test(item.form.name) ? item.unp : item.okpo}_${additionalKey}_${dayjs().format('YYYYMMDD')}.xml`, item.xml);
                     
                     }
                 break;
@@ -182,9 +195,9 @@ app.on('ready', () => {
                 case 'do not group':
                     for (const item of xmlArray) {
 
-                        const additionalKey = getAdditionalKey(item.form.name, item.fileName) ? `_${getAdditionalKey(item.form.name, item.fileName)}` : '';
+                        const additionalKey = getAdditionalKey(item.form.name, item.fileName, item.region);
 
-                        await fsPromises.writeFile(`${data.path}\\Result\\999_${item.form.code}_${item.form.year}_${/здрав$/i.test(item.form.name) ? item.unp : item.okpo}${additionalKey}__${dayjs().format('YYYYMMDD')}.xml`, item.xml);
+                        await fsPromises.writeFile(`${data.path}\\Result\\999_${item.form.code}_${item.form.year}_${/здрав$/i.test(item.form.name) ? item.unp : item.okpo}_${additionalKey}_${dayjs().format('YYYYMMDD')}.xml`, item.xml);
 
                     }
                 break;
@@ -204,7 +217,7 @@ app.on('ready', () => {
         return app.getVersion();
     });
 
-	createWindow();
+	createWindow(width, height);
 
 });
 

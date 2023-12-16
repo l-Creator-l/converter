@@ -58,7 +58,7 @@ export default function Converter() {
 			<Typography className="Converter__Description">Конвертер предназначен для преобразования файлов форм в формате xlsx в файлы xml, совместимые с программой ИАС "Здравоохранение".</Typography>
 
 			<Box className="Converter__Container">
-				<Typography className="Converter__InputDescription">Укажите путь к папке, которая содержит файлы .xlsx</Typography>
+				<Typography className="Converter__InputDescription">Укажите путь к папке, которая содержит файлы xlsx</Typography>
 				<Typography className="Converter__InputDescriptionSmall">( файлы xml будут помещены в папку "Result", которая будет автоматически создана внутри указанного каталога )</Typography>
 				<Box className="Converter__Form">
 					<CustomTextField className="Converter__Input" label="C:\Example" placeholder="C:\Example" value={inputValue} helperText={`${((isValid && inputValue) || (!isValid && !inputValue)) ? '' : 'Путь содержит ошибку'}`} onChange={inputChange}/>

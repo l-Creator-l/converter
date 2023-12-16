@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { IDatabase, IForm, TSortFormsBy, IOrganization, TSortOrganizationsBy, TEditForm, TEditOrganization, TRmCellRule } from "../Types/reduxTypes";
+import { IDatabase, IForm, TSortFormsBy, IOrganization, TSortOrganizationsBy, TEditForm, TEditOrganization, TRemoveCellForm, TEditRowNumber } from "../Types/reduxTypes";
 
 const initialState: IDatabase = {
 	forms: [],
@@ -13,7 +13,8 @@ const initialState: IDatabase = {
 		from: ''
 	},
     rules: {
-        rmCellRules: []
+        removeCell: [],
+        editRowNumber: []
     }
 }
 
@@ -98,18 +99,50 @@ export const sliceDatabase = createSlice({
             state.organizations = database.organizations;
             localStorage.setItem('database', JSON.stringify(database));
         },
-        setRmCellRule(state, action: PayloadAction<TRmCellRule>) {
-            state.rules.rmCellRules.push(action.payload);
+        setRmCellRule(state, action: PayloadAction<TRemoveCellForm>) {
+            const newRule = {
+                form: {
+                    name: action.payload.formNumber === 'all' ? '' : state.forms[Number(action.payload.formNumber)].name,
+                    year: action.payload.formNumber === 'all' ? '' : state.forms[Number(action.payload.formNumber)].year,
+                    all: action.payload.formNumber === 'all' ? true : false
+                },
+                radio: action.payload.radio,
+                table: action.payload.table,
+                regexp: action.payload.regexp
+            };
+            state.rules.removeCell.push(newRule);
 			const database:IDatabase = JSON.parse(localStorage.getItem('database'));
-			database.rules.rmCellRules.push(action.payload);
+			database.rules.removeCell.push(newRule);
 			localStorage.setItem('database', JSON.stringify(database));
         },
         removeRmCellRule(state, action: PayloadAction<number>) {
-			state.rules.rmCellRules.splice(action.payload, 1);
+			state.rules.removeCell.splice(action.payload, 1);
 			const database:IDatabase = JSON.parse(localStorage.getItem('database'));
-			database.rules.rmCellRules.splice(action.payload, 1);
+			database.rules.removeCell.splice(action.payload, 1);
 			localStorage.setItem('database', JSON.stringify(database));
 		},
+        setEdRowNumberRule(state, action: PayloadAction<TEditRowNumber>) {
+            const database:IDatabase = JSON.parse(localStorage.getItem('database'));
+            const index = database.rules.editRowNumber.findIndex(rule => rule.form.name === action.payload.form.name && rule.form.year === action.payload.form.year);
+            const newRule = action.payload;
+
+            if (index !== -1) {
+                database.rules.editRowNumber[index] = newRule;
+                state.rules.editRowNumber[index] = newRule;
+            }
+            else {
+                database.rules.editRowNumber.push(newRule);
+                state.rules.editRowNumber.push(newRule);
+            }
+
+            localStorage.setItem('database', JSON.stringify(database));
+        },
+        removeEdRowNumberRule(state, action: PayloadAction<number>) {
+			state.rules.editRowNumber.splice(action.payload, 1);
+			const database:IDatabase = JSON.parse(localStorage.getItem('database'));
+			database.rules.editRowNumber.splice(action.payload, 1);
+			localStorage.setItem('database', JSON.stringify(database));
+		}
 	}
 
 })

@@ -89,11 +89,16 @@ export type TEditOrganization = {
 }
 
 export interface IRules {
-    rmCellRules: TRmCellRule[]
+    removeCell: TRemoveCell[],
+    editRowNumber: TEditRowNumber[]
 }
 
-export type TRmCellRule = {
-    formNumber: number | '',
+export type TRemoveCell = {
+    form: {
+        name: string,
+        year: string,
+        all: boolean
+    }
     radio: 'one' | 'range' | 'all',
     table: {
         number: number | '',
@@ -106,6 +111,46 @@ export type TRmCellRule = {
     }
 }
 
+export type TRemoveCellForm = {
+    formNumber: number | 'all' | '',
+    radio: 'one' | 'range' | 'all',
+    table: {
+        number: number | '',
+        from: number | '',
+        to: number | ''
+    },
+    regexp: {
+        value: string,
+        iFlag: boolean
+    }
+}
+
+export type TEditRowNumber = {
+    form: TRulesForm,
+    tables: TEditTable[]
+}
+
+export type TEditTable = {
+    tNumber: number,
+    firstRowNumber: number
+}
+
+export type TEditRowNumberForm = {
+    formNumber: number | '',
+	tNumber: number | '',
+	firstRowNumber: number | ''
+}
+
+export type TSetRowNumber = {
+	tNumber: number | '',
+	firstRowNumber: number | ''
+}
+
+export type TRulesForm = {
+    name: string,
+    year: string
+}
+
 export interface ISettings {
     group: string,
     version: string
@@ -114,7 +159,8 @@ export interface ISettings {
 export interface IModal {
     modalRemoveForm: TModalRemoveForm,
     modalRemoveOrganization: TModalRemoveOrganization,
-    modalRemoveRmCellRule: TModalRmCellRule
+    modalRemoveCell: TModalRemoveRule,
+    modalRemoveNumberRule: TModalRemoveRule
 }
 
 export type TModalRemoveForm = {
@@ -129,7 +175,7 @@ export type TModalRemoveOrganization = {
     organizationNumber?: number
 }
 
-export type TModalRmCellRule = {
+export type TModalRemoveRule = {
     visible: boolean,
     ruleNumber?: number
 }

@@ -1,0 +1,235 @@
+.EditRowNumber__Header {
+	margin-top: 50px !important;
+	font-size: 18px;
+	text-align: center;
+	color: white;
+	user-select: none;
+}
+
+.EditRowNumber__Accordion {
+	width: 1000px;
+	margin: 70px auto !important;
+	padding: 5px 20px;
+	border: 1px solid white;
+	border-radius: 10px !important;
+	background: rgba(255, 255, 255, 0.1) !important;
+
+	.EditRowNumber__AccordionHeader {
+		margin: auto;
+		font-size: 20px;
+		color: white;
+	}
+
+	.EditRowNumber__AccordionExpandIcon {
+		fill: white;
+	}
+
+	.EditRowNumber__InputContainer {
+		margin: 40px 40px 0;
+		color: white;
+
+		&:first-of-type {
+			margin-top: 20px;
+		}
+
+		.EditRowNumber__InputDescription {
+			font-size: 18px;
+			user-select: none;
+		}
+
+		.EditRowNumber__Select {
+			margin: 10px 30px 0;
+			width: 300px;
+			color: white;
+			border-bottom: 1px solid white;
+		}
+
+		.EditRowNumber__ErrorMessage {
+			margin-left: 44px;
+			color: #f7b0b9;
+		}
+
+		.EditRowNumber__WrapperOuter {
+			display: flex;
+			margin-top: 10px;
+			height: 100px;
+
+			.EditRowNumber__WrapperInner {
+				flex-grow: 1;
+
+				.EditRowNumber__Input {
+					width: 200px;
+					margin: 25px 65px 0 30px;
+					font-size: 10px !important;
+				}
+			}
+
+			.EditRowNumber__AddRuleButton {
+				display: block;
+				width: 150px;
+				height: 50px;
+				margin-top: 20px;
+				border: 1px solid white !important;
+				border-radius: 25px;
+				color: white;
+			}
+		}
+
+	}
+
+	.EditRowNumber__InputContainer-size1 {
+		height: 110px;
+	}
+
+	.EditRowNumber__InputContainer-size2 {
+		height: 130px;
+	}
+
+	.EditRowNumber__List {
+		width: 850px;
+		margin: 0 auto 30px !important;
+		color: white;
+		fill: white;
+		user-select: none;
+	
+		.EditRowNumber__ListItem {
+			height: 50px;
+	
+			&:hover {
+				background: rgba(25, 118, 210, 0.04);
+	
+				.EditRowNumber__SelectIcon,
+				.EditRowNumber__RemoveButton {
+					display: inline-block;
+				}
+			}
+	
+			.EditRowNumber__Span {
+				display: inline;
+				color: #f7d8b0;
+			}
+	
+			.EditRowNumber__SelectIcon {
+				display: none;
+				width: 12px;
+				height: 12px;
+				fill: white;
+	
+			}
+	
+			.EditRowNumber__RemoveButton {
+				display: none;
+				width: 36px;
+				height: 36px;
+				margin-right: 20px;
+				border: 1px solid white;
+				transition: .3s;
+	
+				&:hover {
+					border: 1px solid #f7b0b9;
+	
+					.EditRowNumber__RemoveIcon {
+						fill: #f7b0b9;
+					}
+				}
+	
+				.EditRowNumber__RemoveIcon {
+					fill: white;
+				}
+			}
+		}
+	}
+
+	.EditRowNumber__SaveRuleButton {
+		display: block;
+		width: 180px;
+		height: 50px;
+		margin: 0 auto 10px;
+		border: 1px solid white !important;
+		border-radius: 25px;
+		color: white;
+	}
+}
+
+.EditRowNumber__Rules {
+    display: flex;
+    align-items: center;
+    width: 1000px;
+    margin: 0 auto;
+    padding: 0 20px !important;
+    border-bottom: 1px solid white;
+
+    &:hover {
+        background: rgba(25, 118, 210, 0.04);
+
+        .EditRowNumber__SelectRuleIcon, .EditRowNumber__RemoveRuleButton {
+            display: inline-block;
+            opacity: 1;
+        }
+    }
+
+    .EditRowNumber__SelectRuleIcon {
+        width: 12px;
+        height: 12px;
+        margin: 0 25px;
+        fill: white;
+        opacity: 0;
+    }
+
+    .EditRowNumber__RulesList {
+        flex-grow: 1;
+        display: block !important;
+        padding: 20px;
+        color: white;
+        fill: white;
+        user-select: none;
+
+        .EditRowNumber__RuleHeader {
+            font-size: 18px;
+        }
+    
+        .EditRowNumber__RuleListItem {
+            height: 50px;
+    
+            .EditRowNumber__RuleSpan {
+                display: inline;
+                color: #f7d8b0;
+            }
+        }
+    }
+
+    .EditRowNumber__RemoveRuleButton {
+        display: none;
+        width: 36px;
+        height: 36px;
+        margin-right: 50px;
+        border: 1px solid white;
+        transition: .3s;
+
+        &:hover {
+            border: 1px solid #f7b0b9;
+
+            .EditRowNumber__RemoveRuleIcon {
+                fill: #f7b0b9;
+            }
+        }
+
+        .EditRowNumber__RemoveRuleIcon {
+            fill: white;
+        }
+    }
+}
+
+.EditRowNumber__RulesOne {
+    margin: 50px auto;
+    border: none;
+}
+
+.EditRowNumber__RulesFirst {
+    margin-top: 50px;
+}
+
+.EditRowNumber__RulesLast {
+    margin-bottom: 50px;
+    border: none;
+}

@@ -4,14 +4,14 @@ import { useTypedSelector, useTypedDispatch } from '../Hooks/reduxHooks';
 import { sliceModal } from '../Redux/sliceModal';
 import { sliceDatabase } from '../Redux/sliceDatabase';
 
-export default function ModalRemoveRmCellRule() {
+export default function ModalRemoveCellRule() {
 
-    const { visible, ruleNumber } = useTypedSelector(state => state.sliceModal.modalRemoveRmCellRule);
+    const { visible, ruleNumber } = useTypedSelector(state => state.sliceModal.modalRemoveCell);
 	const { setModalVisibilityRm } = sliceModal.actions;
 	const { removeRmCellRule } = sliceDatabase.actions;
 	const dispatch = useTypedDispatch();
 
-    function removeRmCellRuleClick() {
+    function removeRuleClick() {
         dispatch(setModalVisibilityRm({visible: false}));
         dispatch(removeRmCellRule(ruleNumber));
     }
@@ -24,10 +24,10 @@ export default function ModalRemoveRmCellRule() {
         <Fade in={visible}>
             <Container className='Modal__Container'>
 
-                <Typography className='Modal__Message'>Вы уверены, что хотите удалить правило №{ruleNumber + 1}?</Typography>
+                <Typography className='Modal__Message'>Вы уверены, что хотите удалить правило №{ruleNumber + 1} для удаления ячеек нестандартных таблиц?</Typography>
 
                 <Box className='Modal__ButtonsWrapper'>
-                    <Button className='Modal__Button' size='large' onClick={removeRmCellRuleClick}>удалить</Button>
+                    <Button className='Modal__Button' size='large' onClick={removeRuleClick}>удалить</Button>
                     <Button className='Modal__Button' size='large' onClick={closeModalClick}>отмена</Button>
                 </Box>
             
