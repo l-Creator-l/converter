@@ -77,14 +77,14 @@
             user-select: none;
         }
 
-        .Converter__NotFound {
+        .Converter__NotFound, .Converter__Copy {
             margin-bottom: 10px;
             font-size: 20px;
             color: #f7b0b9;
             user-select: none;
         }
 
-        .Converter__NotFoundItem {
+        .Converter__NotFoundItem, .Converter__CopyItem {
             font-size: 14px;
             color: #f7b0b9;
         }

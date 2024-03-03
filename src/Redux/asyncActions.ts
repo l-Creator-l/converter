@@ -26,7 +26,7 @@ export const asyncTransferData = () => async (dispatch: TDispatch, getState: () 
     });
 
     dispatch(setLoading(false));
-    if ('success' in response || 'notFound' in response || 'error' in response) {
+    if ('success' in response || 'notFound' in response || 'copy' in response || 'error' in response) {
         dispatch(setResult(response));
         dispatch(resultVisibilityChange(true));
     }

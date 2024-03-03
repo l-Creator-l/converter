@@ -23,9 +23,9 @@ export default function App() {
 
 		let database:IDatabase = JSON.parse(localStorage.getItem('database'));
 
-        /* if (!database) {
+        if (!database) {
 
-			const importDB2022:IDatabase = {
+			/* const importDB2022:IDatabase = {
                 forms: [
                     { name: '1-аборты', year: '2022', code: '02134' },
                     { name: '1-дети', year: '2022', code: '02312' },
@@ -198,7 +198,7 @@ export default function App() {
                             }
                         ]
                     }
-            }
+            } */
 
             const importDB2023:IDatabase = {
                 forms: [
@@ -430,9 +430,9 @@ export default function App() {
 			localStorage.setItem('database', JSON.stringify(importDB2023));
 			database = importDB2023;
 
-		} */
+		}
 
-		if (!database) {
+		/* if (!database) {
 
 			const initialDatabase:IDatabase = {
 				forms: [],
@@ -454,7 +454,7 @@ export default function App() {
 			localStorage.setItem('database', JSON.stringify(initialDatabase));
 			database = initialDatabase;
 
-		}
+		} */
 
 		dispatch(setDatabse(database));
 

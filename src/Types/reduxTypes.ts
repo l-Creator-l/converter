@@ -45,6 +45,7 @@ export interface IConverter {
 export type TConverterResult = {
     success: number,
     notFound: string[],
+    copy: string[],
     error: string
 }
 

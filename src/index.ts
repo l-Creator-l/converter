@@ -63,6 +63,7 @@ app.on('ready', () => {
 			const jsonArray = [];
 			const xmlArray = [];
             const notFound = [];
+            const copy:string[] = [];
 			const dir = await fsPromises.readdir(data.path);
             let resultDirError = '';
 
@@ -165,6 +166,15 @@ app.on('ready', () => {
                 })
 			}
 
+            function getFilePath(filePath:string, i?:number):string {
+                const number = i ? i : 1;
+                if (fs.existsSync(filePath.replace('.xml', `_COPY${number}.xml`))) return getFilePath(filePath, number + 1);
+                else {
+                    if (!copy.includes(filePath)) copy.push(filePath);
+                    return filePath.replace('.xml', `_COPY${number}.xml`);
+                }
+            }
+
             switch(data.group) {
 
                 case 'by forms':
@@ -174,7 +184,11 @@ app.on('ready', () => {
 
                         if (!fs.existsSync(`${data.path}\\Result\\${item.form.name}`)) fs.mkdirSync(`${data.path}\\Result\\${item.form.name}`);
                         if (!fs.existsSync(`${data.path}\\Result\\${item.form.name}\\${item.region}`)) fs.mkdirSync(`${data.path}\\Result\\${item.form.name}\\${item.region}`);
-                        await fsPromises.writeFile(`${data.path}\\Result\\${item.form.name}\\${item.region}\\999_${item.form.code}_${item.form.year}_${/здрав$/i.test(item.form.name) ? item.unp : item.okpo}_${additionalKey}_${dayjs().format('YYYYMMDD')}.xml`, item.xml);
+
+                        const filePath = `${data.path}\\Result\\${item.form.name}\\${item.region}\\999_${item.form.code}_${item.form.year}_${/здрав$/i.test(item.form.name) ? item.unp : item.okpo}_${additionalKey}_${dayjs().format('YYYYMMDD')}.xml`;
+                        
+                        if (!fs.existsSync(filePath)) await fsPromises.writeFile(filePath, item.xml);
+                        else await fsPromises.writeFile(getFilePath(filePath), item.xml);
 
                     }
                 break;
@@ -187,7 +201,11 @@ app.on('ready', () => {
                         if (!fs.existsSync(`${data.path}\\Result\\${item.okpo}`)) fs.mkdirSync(`${data.path}\\Result\\${item.okpo}`);
                         if (!fs.existsSync(`${data.path}\\Result\\${item.okpo}\\${item.form.name}`)) fs.mkdirSync(`${data.path}\\Result\\${item.okpo}\\${item.form.name}`);
                         if (!fs.existsSync(`${data.path}\\Result\\${item.okpo}\\${item.form.name}\\${item.region}`)) fs.mkdirSync(`${data.path}\\Result\\${item.okpo}\\${item.form.name}\\${item.region}`);
-                        await fsPromises.writeFile(`${data.path}\\Result\\${item.okpo}\\${item.form.name}\\${item.region}\\999_${item.form.code}_${item.form.year}_${/здрав$/i.test(item.form.name) ? item.unp : item.okpo}_${additionalKey}_${dayjs().format('YYYYMMDD')}.xml`, item.xml);
+
+                        const filePath = `${data.path}\\Result\\${item.okpo}\\${item.form.name}\\${item.region}\\999_${item.form.code}_${item.form.year}_${/здрав$/i.test(item.form.name) ? item.unp : item.okpo}_${additionalKey}_${dayjs().format('YYYYMMDD')}.xml`;
+                        
+                        if (!fs.existsSync(filePath)) await fsPromises.writeFile(filePath, item.xml);
+                        else await fsPromises.writeFile(getFilePath(filePath), item.xml);
                     
                     }
                 break;
@@ -196,15 +214,17 @@ app.on('ready', () => {
                     for (const item of xmlArray) {
 
                         const additionalKey = getAdditionalKey(item.form.name, item.fileName, item.region);
+                        const filePath = `${data.path}\\Result\\999_${item.form.code}_${item.form.year}_${/здрав$/i.test(item.form.name) ? item.unp : item.okpo}_${additionalKey}_${dayjs().format('YYYYMMDD')}.xml`;
 
-                        await fsPromises.writeFile(`${data.path}\\Result\\999_${item.form.code}_${item.form.year}_${/здрав$/i.test(item.form.name) ? item.unp : item.okpo}_${additionalKey}_${dayjs().format('YYYYMMDD')}.xml`, item.xml);
+                        if (!fs.existsSync(filePath)) await fsPromises.writeFile(filePath, item.xml);
+                        else await fsPromises.writeFile(getFilePath(filePath), item.xml);
 
                     }
                 break;
 
             }
 
-			return { success: xmlArray.length, notFound };
+			return { success: xmlArray.length, notFound, copy };
 
 		}
 		catch (error) {

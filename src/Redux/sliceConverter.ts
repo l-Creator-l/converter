@@ -8,6 +8,7 @@ const initialState: IConverter = {
     result: {
         success: 0,
         notFound: [],
+        copy: [],
         error: ''
     },
     showResult: false

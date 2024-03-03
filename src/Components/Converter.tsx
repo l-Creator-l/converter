@@ -76,6 +76,12 @@ export default function Converter() {
                     result.notFound.map(text => <Typography className='Converter__NotFoundItem'>{text}</Typography>)
                     : ''
                 }
+                <Typography className={`Converter__Copy ${(result.copy && result.copy.length) ? '' : 'hidden'}`}>Cледующие файлы имеют дубликаты:</Typography>
+                {
+                    (result.copy && result.copy.length) ? 
+                    result.copy.map(text => <Typography className='Converter__CopyItem'>{text}</Typography>)
+                    : ''
+                }
                 <Typography className={`Converter__Error ${result.error ? '' : 'hidden'}`}>Ошибка: {result.error}</Typography>
             </Box>
 			
